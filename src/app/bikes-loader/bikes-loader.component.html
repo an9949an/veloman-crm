@@ -1,0 +1,53 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="form-group">
+        <label for="onlinerLink">Ссылка с онлайнера</label>
+        <input type="email" class="form-control" id="onlinerLink" placeholder="Ссылка">
+      </div>
+      <button onclick="execute(loadPagesGenerator())" id="parseButton" class="btn btn-primary">Стырить</button>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="progress">
+        <div id="parsingProgressBar" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0">
+          <span class="sr-only">40% Complete (success)</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="log">Процесс выполнения</label>
+        <textarea class="form-control" id="log" placeholder="Лог" disabled></textarea>
+      </div>
+      <button class="btn btn-danger" onclick="stopProcessing = true">Прервать</button>
+      <button id="emptyLog" class="btn btn-default" onclick="$('#log').val('')">Очистить лог</button>
+      <button id="lastFile" class="btn btn-info" onclick="window.open(window.lastEncodedCsv)">Скачать последний файл</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label class="btn btn-success btn-file">
+        Выбрать файл с уже загруженными
+        <input type="file" class="input-already-existed" style="display: none;"
+               onchange="readAlreadyExistedCsv()">
+      </label>
+    </div>
+    <div class="col-lg-8">
+      <p class="bg-danger already-existed-csv-name">Файл не загружен</p>
+    </div>
+  </div>
+
+
+  <!-- /.row -->
+
+</div>
