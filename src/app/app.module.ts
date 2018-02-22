@@ -21,6 +21,7 @@ import '../styles/headings.css';
 import { ProductsLoaderComponent } from './products-loader';
 import { NavbarComponent } from './core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PricesUpdaterComponent } from './prices-updater';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -43,7 +44,8 @@ type StoreType = {
     AppComponent,
     ProductsLoaderComponent,
     NoContentComponent,
-    NavbarComponent
+    NavbarComponent,
+    PricesUpdaterComponent
   ],
   /**
    * Import Angular's modules.

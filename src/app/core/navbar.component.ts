@@ -20,8 +20,8 @@ import { Component, OnInit } from '@angular/core';
               Импорт товаров
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+            <a class="nav-link" [routerLink]=" ['./prices-updater'] ">
               Менеджер прайс-листов
             </a>
           </li>
