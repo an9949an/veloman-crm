@@ -19,8 +19,8 @@ import { NoContentComponent } from './no-content';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 import { BikesLoaderComponent } from './bikes-loader';
-import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import { NavbarComponent } from './core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -53,8 +53,7 @@ type StoreType = {
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    MatButtonModule,
-    MatCheckboxModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules

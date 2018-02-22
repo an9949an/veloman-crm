@@ -5,9 +5,10 @@
 
       <div class="form-group">
         <label for="onlinerLink">Ссылка с онлайнера</label>
-        <input type="email" class="form-control" id="onlinerLink" placeholder="Ссылка">
+        <input class="form-control" id="onlinerLink" placeholder="Ссылка" [(ngModel)]="link"
+               #onlinerLink="ngModel" required>
       </div>
-      <button onclick="execute(loadPagesGenerator())" id="parseButton" class="btn btn-primary">Стырить</button>
+      <button onclick="startLoading()" [disabled]="onlinerLink.invalid || loadingInProcess" id="parseButton" class="btn btn-primary">Стырить</button>
 
     </div>
   </div>
@@ -26,7 +27,7 @@
       </div>
       <div class="form-group">
         <label for="log">Процесс выполнения</label>
-        <textarea class="form-control" id="log" placeholder="Лог" disabled></textarea>
+        <textarea class="form-control loading-log" id="log" placeholder="Лог" disabled></textarea>
       </div>
       <button class="btn btn-danger" onclick="stopProcessing = true">Прервать</button>
       <button id="emptyLog" class="btn btn-default" onclick="$('#log').val('')">Очистить лог</button>
@@ -39,11 +40,12 @@
       <label class="btn btn-success btn-file">
         Выбрать файл с уже загруженными
         <input type="file" class="input-already-existed" style="display: none;"
-               onchange="readAlreadyExistedCsv()">
+               (change)="loadExistedProducts($event.srcElement.files[0])">
       </label>
     </div>
     <div class="col-lg-8">
-      <p class="bg-danger already-existed-csv-name">Файл не загружен</p>
+      <p [ngClass]="{'bg-danger': loadExistedState.warningColor, 'bg-success': !loadExistedState.warningColor}"
+         class="already-existed-csv-name">{{loadExistedState.text}}</p>
     </div>
   </div>
 
