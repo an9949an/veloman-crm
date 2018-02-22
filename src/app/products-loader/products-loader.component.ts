@@ -18,14 +18,14 @@ export class ProductsLoaderComponent implements OnInit {
     warningColor: true
   };
 
-  constructor(public productsLoader: ExistedProducts) {
+  constructor(public existedProducts: ExistedProducts) {
   }
 
   public ngOnInit() {
   }
 
   public loadExistedProducts(file: any): void {
-    this.productsLoader.loadExistedProducts(file)
+    this.existedProducts.loadExistedProducts(file)
       .then((fileName) => {
         this.loadExistedState = {
           text: `Файл ${fileName} успешно обработан`,

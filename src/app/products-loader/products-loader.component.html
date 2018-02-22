@@ -44,9 +44,12 @@
       </label>
     </div>
     <div class="col-lg-8">
-      <p [ngClass]="{'bg-danger': loadExistedState.warningColor, 'bg-success': !loadExistedState.warningColor}"
-         class="already-existed-csv-name">{{loadExistedState.text}}</p>
+      <div class="alert alert-success" role="alert"
+           [ngClass]="{'alert-danger': loadExistedState.warningColor, 'alert-success': !loadExistedState.warningColor}">
+        {{loadExistedState.text}}
+      </div>
     </div>
+
   </div>
 
 
