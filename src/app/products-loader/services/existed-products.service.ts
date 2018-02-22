@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import * as Papa from 'papaparse/papaparse';
 
 @Injectable()
-export class ProductsLoader {
+export class ExistedProducts {
 
   public existedProductNames: string[] = [];
 

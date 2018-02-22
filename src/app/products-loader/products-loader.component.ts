@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsLoader } from './products-loader';
+import { ExistedProducts } from './services';
 
 @Component({
   selector: 'bikes-loader',
-  templateUrl: 'bikes-loader.component.html',
-  styleUrls: ['bikes-loader.component.scss'],
+  templateUrl: 'products-loader.component.html',
+  styleUrls: ['products-loader.component.scss'],
   providers: [
-    ProductsLoader
+    ExistedProducts
   ]
 })
 
-export class BikesLoaderComponent implements OnInit {
+export class ProductsLoaderComponent implements OnInit {
   public link: string;
   public loadingInProcess = false;
   public loadExistedState: { text: string, warningColor: boolean } = {
@@ -18,7 +18,7 @@ export class BikesLoaderComponent implements OnInit {
     warningColor: true
   };
 
-  constructor(public productsLoader: ProductsLoader) {
+  constructor(public productsLoader: ExistedProducts) {
   }
 
   public ngOnInit() {

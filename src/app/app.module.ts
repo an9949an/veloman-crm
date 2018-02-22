@@ -18,7 +18,7 @@ import { NoContentComponent } from './no-content';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import { BikesLoaderComponent } from './bikes-loader';
+import { ProductsLoaderComponent } from './products-loader';
 import { NavbarComponent } from './core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -41,7 +41,7 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    BikesLoaderComponent,
+    ProductsLoaderComponent,
     NoContentComponent,
     NavbarComponent
   ],
