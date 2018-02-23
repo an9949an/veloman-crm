@@ -9,8 +9,7 @@ import { ExistedProducts } from './services';
     ExistedProducts
   ]
 })
-
-export class ProductsLoaderComponent implements OnInit {
+export class ProductsLoaderComponent {
   public link: string;
   public loadingInProcess = false;
   public loadExistedState: { text: string, warningColor: boolean } = {
@@ -19,9 +18,6 @@ export class ProductsLoaderComponent implements OnInit {
   };
 
   constructor(public existedProducts: ExistedProducts) {
-  }
-
-  public ngOnInit() {
   }
 
   public loadExistedProducts(file: any): void {

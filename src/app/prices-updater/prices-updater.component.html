@@ -2,34 +2,40 @@
 
   <div class="row">
     <div class="col-lg-4">
-      <label class="btn btn-success btn-file">
+      <label class="btn btn-success">
         Выбрать onliner csv
-        <input type="file" class="input-csv-from-onliner" style="display: none;"
-               onchange="loadCsvFromOnliner()">
+        <input type="file" (change)="loadFile($event.srcElement.files[0], pricesUpdater.loadOnlinerCsv.bind(pricesUpdater), 'loadFromOnlinerState')"
+               style="display: none;">
       </label>
     </div>
     <div class="col-lg-8">
-      <p class="bg-danger csv-from-onliner-name">Файл не загружен</p>
+      <div class="alert" role="alert"
+           [ngClass]="{'alert-danger': loadFromOnlinerState.warningColor, 'alert-success': !loadFromOnlinerState.warningColor}">
+        {{loadFromOnlinerState.text}}
+      </div>
     </div>
   </div>
 
 
   <div class="row">
     <div class="col-lg-4">
-      <label class="btn btn-success btn-file">
+      <label class="btn btn-success">
         Выбрать woocommerce csv
-        <input type="file" class="input-csv-from-site" style="display: none;"
-               onchange="loadCsvFromSite()">
+        <input type="file" (change)="loadFile($event.srcElement.files[0], pricesUpdater.loadSiteCsv.bind(pricesUpdater), 'loadFromSiteState')"
+               style="display: none;">
       </label>
     </div>
     <div class="col-lg-8">
-      <p class="bg-danger csv-from-site-name">Файл не загружен</p>
+      <div class="alert" role="alert"
+           [ngClass]="{'alert-danger': loadFromSiteState.warningColor, 'alert-success': !loadFromSiteState.warningColor}">
+        {{loadFromSiteState.text}}
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-lg-12">
-      <button class="btn btn-danger" onclick="calculateFileWithPrices()">Рассчитать</button>
+      <button class="btn btn-danger" (click)="pricesUpdater.calculatePrices()">Рассчитать</button>
     </div>
   </div>
 
