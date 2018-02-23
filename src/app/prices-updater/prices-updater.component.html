@@ -35,7 +35,8 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <button class="btn btn-danger" (click)="pricesUpdater.calculatePrices()">Рассчитать</button>
+      <button class="btn btn-danger" (click)="pricesUpdater.calculatePrices()"
+      [disabled]="loadFromSiteState.warningColor || loadFromOnlinerState.warningColor">Рассчитать</button>
     </div>
   </div>
 
