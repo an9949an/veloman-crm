@@ -1,37 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Papa from 'papaparse/papaparse';
+import { bindNodeCallback } from 'rxjs/observable/bindNodeCallback';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ExistedProducts {
 
   public existedProductNames: string[] = [];
+  public loadExistedProducts: (file: any) => Observable<string>;
 
   constructor(public http: HttpClient) {
-  }
-
-  /**
-   * loadExistedProducts
-   * @param file
-   * @returns {Promise<string>}
-   */
-  public loadExistedProducts(file: any): Promise<string> {
-    console.log(file);
-
-    return new Promise((resolve, reject) => {
-      this.parseExistedProductsFile(file, resolve, reject);
-    });
+    this.loadExistedProducts = bindNodeCallback(this.parseExistedProductsFile);
   }
 
   /**
    * parseExistedProductsFile
    * @param file
-   * @param {(fileName: string) => any} resolve
-   * @param {(error: string) => any} reject
+   * @param {(file: any) => string} callback
    */
-  public parseExistedProductsFile(file: any,
-                                  resolve: (result: string) => any,
-                                  reject: (result: string) => any ): void {
+  private parseExistedProductsFile(file: any,
+                                   callback: (error: string, result?: string) => void): void {
     let that = this;
 
     Papa.parse(file, {
@@ -42,7 +31,7 @@ export class ExistedProducts {
       quoteChar: '"',
       complete(e, fileData) {
         that.existedProductNames = e.data.map((x) => x['meta:name_from_onliner']);
-        resolve(<string> fileData.name);
+        callback(null, <string> fileData.name);
       },
       error(e, fileData) {
         that.existedProductNames = [];
@@ -50,7 +39,7 @@ export class ExistedProducts {
           'ничего поделать уже нельзя. Все кончено. Товары не запаросились, бизнес просран. ' +
           'Выход один: алкоголизм. Приносим еще раз свои искренние извинения за неудобства, ' +
           'обратитесь в ближайший виноводочный отдел, благодарим за понимание.');
-        reject(<string> fileData.name);
+        callback(<string> fileData.name);
       }
     });
   }

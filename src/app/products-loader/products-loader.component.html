@@ -45,8 +45,8 @@
     </div>
     <div class="col-lg-8">
       <div class="alert" role="alert"
-           [ngClass]="{'alert-danger': loadExistedState.warningColor, 'alert-success': !loadExistedState.warningColor}">
-        {{loadExistedState.text}}
+           [ngClass]="{'alert-danger': (loadExistedState$ | async).warningColor, 'alert-success': !(loadExistedState$ | async).warningColor}">
+        {{(loadExistedState$ | async).text}}
       </div>
     </div>
 
