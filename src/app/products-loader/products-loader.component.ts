@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } fro
 import { ExistedProducts, ProductsLoader } from './services';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { ProductsProcessing } from './services/products-processing.service';
 
 @Component({
   selector: 'bikes-loader',
@@ -10,15 +11,20 @@ import { Observable } from 'rxjs/Observable';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     ExistedProducts,
-    ProductsLoader
+    ProductsLoader,
+    ProductsProcessing
   ]
 })
 export class ProductsLoaderComponent implements OnInit {
   @ViewChild('cancelBtn') public cancelBtn: ElementRef;
   private loadExistedState$: BehaviorSubject<{ text: string, warningColor: boolean }>;
+  private log$: Observable<string>;
 
   constructor(public existedProducts: ExistedProducts,
               public productsLoader: ProductsLoader) {
+    this.log$ = productsLoader.loaded$.map((names) => {
+      return names.reduce((acc, name) => acc + name + '\r', '');
+    });
   }
 
   public ngOnInit() {
@@ -45,8 +51,7 @@ export class ProductsLoaderComponent implements OnInit {
   public loadProducts(link) {
     const cancelBtnClick = Observable.fromEvent(this.cancelBtn.nativeElement, 'click');
 
-    this.productsLoader.loadProducts(link)
-      .takeUntil(cancelBtnClick)
+    this.productsLoader.loadProducts(link, cancelBtnClick)
       .subscribe((x) => console.log(x));
   }
 }

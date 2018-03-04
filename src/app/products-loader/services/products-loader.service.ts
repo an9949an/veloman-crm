@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
+import { ExistedProducts } from './existed-products.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
@@ -16,6 +17,7 @@ import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/concat';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ProductsProcessing } from './products-processing.service';
 
 const random = require('lodash/random');
 
@@ -55,17 +57,40 @@ export class ProductsLoader {
 
   // endregion Additional Static Functions
 
-  public loadingInProcess$: BehaviorSubject<boolean>;
-  public csv$: BehaviorSubject<boolean>;
+  public loadingStatus$: BehaviorSubject<{ started: boolean, progress: number }>;
+  public loaded$: BehaviorSubject<string[]>;
+  public downloadCsv: () => void;
 
-  constructor(public http: HttpClient) {
-    this.loadingInProcess$ = new BehaviorSubject(false);
+  constructor(
+    private http: HttpClient,
+    private existedProducts: ExistedProducts,
+    private productsProcessing: ProductsProcessing
+  ) {
+    this.loadingStatus$ = new BehaviorSubject({started: false, progress: 0});
+    this.loaded$ = new BehaviorSubject([]);
+    this.downloadCsv =  this.productsProcessing.downloadCsv.bind(this.productsProcessing);
   }
 
-  public loadProducts(link): Observable<object> {
-    this.loadingInProcess$.next(true);
+  /**
+   * loadProducts
+   * @param link
+   * @param takeUntil
+   * @returns {Observable<object>}
+   */
+  public loadProducts(link, takeUntil: Observable<any>): Observable<object> {
+    this.loadingStatus$.next({started: true, progress: 0});
+    this.loaded$.next([]);
+
+    const log = (product) => {
+      this.loaded$.next([product.full_name, ...this.loaded$.value]);
+    };
+
     return this.load(link)
-      .finally(() => this.loadingInProcess$.next(false));
+      .do(log)
+      .takeUntil(takeUntil)
+      .toArray()
+      .do((products) => this.productsProcessing.process(products))
+      .finally(() => this.loadingStatus$.next({started: false, progress: 0}));
   }
 
   /**
@@ -101,17 +126,57 @@ export class ProductsLoader {
 
   /**
    * loadProductsFromPage
-   * @param {any[]} products
+   * @param page
    * @returns {Observable<object>}
    */
-  private loadProductsFromPage({products}: { products: any[] }): Observable<object> {
-    return Observable.concat(...products.map((product) => {
+  private loadProductsFromPage(page: {
+    products: any[],
+    total: number,
+    page: {
+      current: number,
+      limit: number
+    }
+  }): Observable<object> {
+    const load = (product, productIndexOnCurrentPage, products) => {
       return ProductsLoader
         .randomTimeout()
         .mergeMap(() => this.http.get(
           ProductsLoader.getProductLink(product)
-        ));
-    }));
+        ))
+        .do(this.setProgress(page, productIndexOnCurrentPage, products.length));
+    };
+
+    const productIsNew = (product) => this.existedProducts.names.indexOf(product.name) < 0;
+
+    const productLoaders = page.products
+      .filter(productIsNew)
+      .map(load);
+
+    return Observable.concat(...productLoaders);
+  }
+
+  /**
+   * setProgress
+   * @param page
+   * @param {number} productIndexOnCurrentPage
+   * @param pageSize
+   * @returns {() => void}
+   */
+  private setProgress(page: {
+                        total: number,
+                        page: {
+                          current: number
+                        }
+                      },
+                      productIndexOnCurrentPage: number,
+                      pageSize: number): () => void {
+    return () => {
+      const productIndex = productIndexOnCurrentPage + 1
+        + (page.page.current - 1) * pageSize;
+      const totalProgress = 100 * productIndex / page.total;
+
+      this.loadingStatus$.next({started: true, progress: totalProgress});
+    };
   }
 
 }

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ExistedProducts {
 
-  public existedProductNames: string[] = [];
+  public names: string[] = [];
   public loadExistedProducts: (file: any) => Observable<string>;
 
   constructor(public http: HttpClient) {
@@ -30,11 +30,11 @@ export class ExistedProducts {
       quotes: true,
       quoteChar: '"',
       complete(e, fileData) {
-        that.existedProductNames = e.data.map((x) => x['meta:name_from_onliner']);
+        that.names = e.data.map((x) => x['meta:name_from_onliner']);
         callback(null, <string> fileData.name);
       },
       error(e, fileData) {
-        that.existedProductNames = [];
+        that.names = [];
         alert('Ошибка. И один Господь Бог в курсе что за хрень там произошла, извините, но ' +
           'ничего поделать уже нельзя. Все кончено. Товары не запаросились, бизнес просран. ' +
           'Выход один: алкоголизм. Приносим еще раз свои искренние извинения за неудобства, ' +
