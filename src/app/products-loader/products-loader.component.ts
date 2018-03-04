@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ExistedProducts } from './services';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ExistedProducts, ProductsLoader } from './services';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'bikes-loader',
@@ -8,15 +9,16 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   styleUrls: ['products-loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    ExistedProducts
+    ExistedProducts,
+    ProductsLoader
   ]
 })
-export class ProductsLoaderComponent  implements OnInit {
-  public link: string;
-  public loadingInProcess = false;
+export class ProductsLoaderComponent implements OnInit {
+  @ViewChild('cancelBtn') public cancelBtn: ElementRef;
   private loadExistedState$: BehaviorSubject<{ text: string, warningColor: boolean }>;
 
-  constructor(public existedProducts: ExistedProducts) {
+  constructor(public existedProducts: ExistedProducts,
+              public productsLoader: ProductsLoader) {
   }
 
   public ngOnInit() {
@@ -38,5 +40,13 @@ export class ProductsLoaderComponent  implements OnInit {
           warningColor: true
         })
       );
+  }
+
+  public loadProducts(link) {
+    const cancelBtnClick = Observable.fromEvent(this.cancelBtn.nativeElement, 'click');
+
+    this.productsLoader.loadProducts(link)
+      .takeUntil(cancelBtnClick)
+      .subscribe((x) => console.log(x));
   }
 }

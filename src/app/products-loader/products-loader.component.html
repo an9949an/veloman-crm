@@ -8,7 +8,8 @@
         <input class="form-control" id="onlinerLink" placeholder="Ссылка" [(ngModel)]="link"
                #onlinerLink="ngModel" required>
       </div>
-      <button onclick="startLoading()" [disabled]="onlinerLink.invalid || loadingInProcess" id="parseButton" class="btn btn-primary">Стырить</button>
+      <button (click)="loadProducts(onlinerLink.model)" [disabled]="onlinerLink.invalid || (productsLoader.loadingInProcess$ | async)"
+              id="parseButton" class="btn btn-primary">Стырить</button>
 
     </div>
   </div>
@@ -29,7 +30,8 @@
         <label for="log">Процесс выполнения</label>
         <textarea class="form-control loading-log" id="log" placeholder="Лог" disabled></textarea>
       </div>
-      <button class="btn btn-danger" onclick="stopProcessing = true">Прервать</button>
+      <button class="btn btn-danger" #cancelBtn
+              [disabled]="!(productsLoader.loadingInProcess$ | async)">Прервать</button>
       <button id="emptyLog" class="btn btn-default" onclick="$('#log').val('')">Очистить лог</button>
       <button id="lastFile" class="btn btn-info" onclick="window.open(window.lastEncodedCsv)">Скачать последний файл</button>
     </div>
