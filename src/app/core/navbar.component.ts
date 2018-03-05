@@ -22,6 +22,11 @@ import { Component, OnInit } from '@angular/core';
           </li>
           <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
             <a class="nav-link" [routerLink]=" ['./prices-updater'] ">
+              Импорт цен с онлайнера
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+            <a class="nav-link" [routerLink]=" ['./prices-processor'] ">
               Менеджер прайс-листов
             </a>
           </li>
