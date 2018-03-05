@@ -1,0 +1,38 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label class="btn btn-success">
+        Загрузить цены каталога
+        <input type="file" style="display: none;" (change)="loadFile($event.target.files[0])">
+      </label>
+    </div>
+    <div class="col-lg-8">
+      <div class="alert alert-danger" role="alert">
+        TODO
+      </div>
+    </div>
+  </div>
+
+  <form>
+    <div class="form-group" *ngIf="(uiData.productTypes$ | async).length">
+      <label for="typesSelect">Example multiple select</label>
+      <select #types name="types" multiple class="form-control" id="typesSelect" [disabled]="(uiData.brands$ | async).length">
+        <option *ngFor="let type of uiData.productTypes$ | async" [value]="type">{{type}}</option>
+      </select>
+      <br>
+      <button class="btn btn-primary" [disabled]="(uiData.brands$ | async).length" (click)="selectTypes(types.selectedOptions)">Submit</button>
+    </div>
+
+    <div class="form-group" *ngIf="(uiData.brands$ | async).length">
+      <label for="brandsSelect">Example multiple select</label>
+      <select #brandsd multiple class="form-control" id="brandsSelect">
+        <option *ngFor="let brand of uiData.brands$ | async" [value]="brand">{{brand}}</option>
+      </select>
+    </div>
+
+  </form>
+
+</div>
+
+
