@@ -22,4 +22,8 @@ export class Data {
   public setData(data: ProductsData): void {
     this._data$.next(data);
   }
+
+  public clear(): void {
+    this._data$.next({items: [], headers: []});
+  }
 }

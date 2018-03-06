@@ -12,13 +12,20 @@ export class UiData {
 
   private _selectedTypes$: BehaviorSubject<string[]>;
   private _selectedSellers$: BehaviorSubject<string[]>;
+  private _selectedBrands$: BehaviorSubject<string[]>;
 
   constructor(private data: Data) {
     this._selectedTypes$ = new BehaviorSubject<string[]>([]);
     this._selectedSellers$ = new BehaviorSubject<string[]>([]);
+    this._selectedBrands$ = new BehaviorSubject<string[]>([]);
 
     this.productTypes$ = this.getProductTypesObservable();
     this.brands$ = this.getBandsObservable();
+    this.sellers$ = this.getSellersObservable();
+  }
+
+  get selectedSellers$(): Observable<string[]> {
+    return this._selectedSellers$.asObservable();
   }
 
   /**
@@ -34,7 +41,25 @@ export class UiData {
    * @param {string[]} sellers
    */
   public setSellers(sellers: string[]): void {
-    this._selectedTypes$.next(sellers);
+    this._selectedSellers$.next(sellers);
+  }
+
+  /**
+   * setBrands
+   * @param {string[]} brands
+   */
+  public setBrands(brands: string[]): void {
+    this._selectedBrands$.next(brands);
+  }
+
+  /**
+   * clear
+   */
+  public clear(): void {
+    this._selectedTypes$.next([]);
+    this._selectedSellers$.next([]);
+    this._selectedBrands$.next([]);
+    this.data.clear();
   }
 
   /**
@@ -78,5 +103,50 @@ export class UiData {
     };
 
     return this._selectedTypes$.flatMap(getBrands);
+  }
+
+  /**
+   * getSellersObservable
+   * @returns {Observable<string[]>}
+   */
+  private getSellersObservable(): Observable<string[]> {
+    const stream = Observable.zip(
+      this._selectedTypes$,
+      this._selectedBrands$,
+      this.data.data$,
+      (types: string[], brands: string[], data: ProductsData) => ({types, brands, data})
+    );
+
+    const getSellers = (computed: { types: string[], brands: string[], data: ProductsData }) => {
+      let sellers: string[] = [];
+
+      for (const item of computed.data.items) {
+        const itemBrand = Data.get(item, 'Производитель', computed.data.headers);
+        const itemType = Data.get(item, 'Раздел', computed.data.headers);
+        if (computed.brands.indexOf(itemBrand) > -1 && computed.types.indexOf(itemType) > -1) {
+          for (let shopNumber = 1; ; shopNumber++) {
+            const shopHeader = `Магазин ${shopNumber}`;
+            if (computed.data.headers.indexOf(shopHeader) < 0) {
+              break;
+            }
+
+            const itemInShopPrice = parseInt(
+              Data.get(item, `Цена ${shopNumber}`, computed.data.headers),
+              10
+            );
+
+            const shopName = Data.get(item, shopHeader, computed.data.headers);
+            const sellerAdded = sellers.indexOf(shopName) > -1;
+            if (itemInShopPrice > 0 && !sellerAdded) {
+              sellers.push(shopName);
+            }
+          }
+        }
+      }
+
+      return sellers;
+    };
+
+    return stream.map(getSellers);
   }
 }

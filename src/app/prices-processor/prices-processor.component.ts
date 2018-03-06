@@ -20,8 +20,9 @@ export class PricesProcessorComponent {
               public uiData: UiData) {
   }
 
-  public loadFile(file: any): void {
-    this.pricesProcessor.loadFile(file).subscribe();
+  public loadFile(fileInput: any): void {
+    this.pricesProcessor.loadFile(fileInput.files[0]).subscribe();
+    fileInput.value = '';
   }
 
   public selectTypes(options: HTMLCollection) {
@@ -29,4 +30,13 @@ export class PricesProcessorComponent {
     this.uiData.setTypes(types);
   }
 
+  public selectBrands(options: HTMLCollection) {
+    const brands = [].map.call(options, (option) => option.value);
+    this.uiData.setBrands(brands);
+  }
+
+  public selectSellers(options: HTMLCollection) {
+    const sellers = [].map.call(options, (option) => option.value);
+    this.uiData.setSellers(sellers);
+  }
 }
