@@ -39,4 +39,8 @@ export class PricesProcessorComponent {
     const sellers = [].map.call(options, (option) => option.value);
     this.uiData.setSellers(sellers);
   }
+
+  public buildFile(fields): void {
+    console.log(fields);
+  }
 }

@@ -3,12 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Data } from './data.service';
 import { ProductsData } from './models/products-data';
+import { ConnectableObservable } from 'rxjs/Rx';
 
 @Injectable()
 export class UiData {
-  public productTypes$: Observable<string[]>;
-  public sellers$: Observable<string[]>;
-  public brands$: Observable<string[]>;
+  public productTypes$: ConnectableObservable<string[]>;
+  public sellers$: ConnectableObservable<string[]>;
+  public brands$: ConnectableObservable<string[]>;
 
   private _selectedTypes$: BehaviorSubject<string[]>;
   private _selectedSellers$: BehaviorSubject<string[]>;
@@ -19,9 +20,14 @@ export class UiData {
     this._selectedSellers$ = new BehaviorSubject<string[]>([]);
     this._selectedBrands$ = new BehaviorSubject<string[]>([]);
 
-    this.productTypes$ = this.getProductTypesObservable();
-    this.brands$ = this.getBandsObservable();
-    this.sellers$ = this.getSellersObservable();
+    this.productTypes$ = this.getProductTypesObservable()
+      .multicast(new BehaviorSubject<string[]>([]));
+    this.brands$ = this.getBandsObservable().multicast(new BehaviorSubject<string[]>([]));
+    this.sellers$ = this.getSellersObservable().multicast(new BehaviorSubject<string[]>([]));
+
+    this.productTypes$.connect();
+    this.brands$.connect();
+    this.sellers$.connect();
   }
 
   get selectedSellers$(): Observable<string[]> {

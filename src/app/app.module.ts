@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,18 +23,13 @@ import { NavbarComponent } from './core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PricesUpdaterComponent } from './prices-updater';
 import { PricesProcessorComponent } from './prices-processor';
+import { AdditionalFieldsComponent } from './prices-processor/additional-fields';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState
 ];
-
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -47,7 +42,8 @@ type StoreType = {
     NoContentComponent,
     NavbarComponent,
     PricesUpdaterComponent,
-    PricesProcessorComponent
+    PricesProcessorComponent,
+    AdditionalFieldsComponent
   ],
   /**
    * Import Angular's modules.
@@ -57,6 +53,7 @@ type StoreType = {
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,

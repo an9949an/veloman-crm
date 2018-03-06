@@ -1,0 +1,11 @@
+<form [formGroup]="form" autocomplete="off">
+  <div class="form-group">
+    <label for="shop">Описание магазина</label>
+    <input id="shop" formControlName="shop" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="manufacturer">Описание производителя</label>
+    <input id="manufacturer" formControlName="manufacturer" class="form-control">
+  </div>
+  <button class="btn btn-primary" [disabled]="!form.valid" (click)="buildFile.emit(form.value)">Сформировать файл</button>
+</form>

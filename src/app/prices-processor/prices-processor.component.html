@@ -2,15 +2,15 @@
 
   <div class="row">
     <div class="col-lg-4">
-      <label class="btn btn-success" [ngClass]="{'disabled': (uiData.productTypes$ | async).length}">
+      <label class="btn btn-success" [ngClass]="{'disabled': (uiData.productTypes$ | async)?.length}">
         Загрузить цены каталога
-        <input [disabled]="(uiData.productTypes$ | async).length" type="file" style="display: none;" (change)="loadFile($event.target)">
+        <input [disabled]="(uiData.productTypes$ | async)?.length" type="file" style="display: none;" (change)="loadFile($event.target)">
       </label>
     </div>
     <div class="col-lg-8">
-      <div class="alert" role="alert" [ngClass]="{'alert-danger': !(uiData.productTypes$ | async).length,
-                                                               'alert-success': (uiData.productTypes$ | async).length}">
-        <span *ngIf="!(uiData.productTypes$ | async).length; else loaded_successful">
+      <div class="alert" role="alert" [ngClass]="{'alert-danger': !(uiData.productTypes$ | async)?.length,
+                                                               'alert-success': (uiData.productTypes$ | async)?.length}">
+        <span *ngIf="!(uiData.productTypes$ | async)?.length; else loaded_successful">
           А, это ты? Привет. Да пошел ты.
         </span>
         <ng-template #loaded_successful>Файл успешно загружон.</ng-template>
@@ -19,34 +19,39 @@
   </div>
 
   <form>
-    <div class="form-group" *ngIf="(uiData.productTypes$ | async).length">
+    <div class="form-group" *ngIf="(uiData.productTypes$ | async)?.length">
       <label for="typesSelect">Выберите тип товара</label>
-      <select #types name="types" multiple class="form-control" id="typesSelect" [disabled]="(uiData.brands$ | async).length">
+      <select #types name="types" multiple class="form-control" id="typesSelect" [disabled]="(uiData.brands$ | async)?.length">
         <option *ngFor="let type of uiData.productTypes$ | async" [value]="type">{{type}}</option>
       </select>
       <br>
-      <button class="btn btn-primary" [disabled]="(uiData.brands$ | async).length" (click)="selectTypes(types.selectedOptions)">Submit</button>
+      <button class="btn btn-primary" [disabled]="(uiData.brands$ | async)?.length" (click)="selectTypes(types.selectedOptions)">Submit</button>
     </div>
 
-    <div class="form-group" *ngIf="(uiData.brands$ | async).length">
+    <div class="form-group" *ngIf="(uiData.brands$ | async)?.length">
       <label for="brandsSelect">Выберите брэнд</label>
-      <select #brands multiple class="form-control" id="brandsSelect" [disabled]="(uiData.sellers$.share() | async).length">
+      <select #brands multiple class="form-control" id="brandsSelect" [disabled]="(uiData.sellers$.share() | async)?.length">
         <option *ngFor="let brand of uiData.brands$ | async" [value]="brand">{{brand}}</option>
       </select>
       <br>
-      <button class="btn btn-primary" [disabled]="(uiData.sellers$.share() | async).length" (click)="selectBrands(brands.selectedOptions)">Submit</button>
+      <button class="btn btn-primary" [disabled]="(uiData.sellers$.share() | async)?.length" (click)="selectBrands(brands.selectedOptions)">Submit</button>
     </div>
 
-    <div class="form-group" *ngIf="(uiData.sellers$ | async).length">
+    <div class="form-group" *ngIf="(uiData.sellers$ | async)?.length">
       <label for="sellersSelect">Выберите продавци</label>
-      <select #sellers multiple class="form-control" id="sellersSelect" [disabled]="(uiData.selectedSellers$ | async).length">
+      <select #sellers multiple class="form-control" id="sellersSelect" [disabled]="(uiData.selectedSellers$ | async)?.length">
         <option *ngFor="let seller of uiData.sellers$ | async" [value]="seller">{{seller}}</option>
       </select>
       <br>
-      <button class="btn btn-primary" [disabled]="(uiData.selectedSellers$ | async).length" (click)="selectSellers(sellers.selectedOptions)">Submit</button>
+      <button class="btn btn-primary" [disabled]="(uiData.selectedSellers$ | async)?.length" (click)="selectSellers(sellers.selectedOptions)">Submit</button>
     </div>
 
   </form>
+
+  <div class="additional-fields">
+    <additional-fields (buildFile)="buildFile($event)" class="additional-fields"
+                       *ngIf="(uiData.selectedSellers$ | async)?.length"></additional-fields>
+  </div>
 
   <button class="btn btn-danger" (click)="uiData.clear()">Очистить все</button>
 </div>
