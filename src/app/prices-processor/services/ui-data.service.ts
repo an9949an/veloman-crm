@@ -46,8 +46,9 @@ export class UiData {
       let productTypes = [];
 
       for (const item of productsData.items) {
-        if (productTypes.indexOf(item[0]) < 0) {
-          productTypes.push(item[0]);
+        const itemType = Data.get(item, 'Раздел', productsData.headers);
+        if (productTypes.indexOf(itemType) < 0) {
+          productTypes.push(itemType);
         }
       }
 
@@ -60,19 +61,22 @@ export class UiData {
    * @returns {Observable<string[]>}
    */
   private getBandsObservable(): Observable<string[]> {
-    return this._selectedTypes$
-      .flatMap((types) => {
-        return this.data.data$.map((productsData: ProductsData) => {
-          let brands = [];
+    const getBrands = (types) => {
+      return this.data.data$.map((productsData: ProductsData) => {
+        let brands = [];
 
-          for (const item of productsData.items) {
-            if (brands.indexOf(item[1]) < 0 && types.indexOf(item[0]) > -1) {
-              brands.push(item[1]);
-            }
+        for (const item of productsData.items) {
+          const itemBrand = Data.get(item, 'Производитель', productsData.headers);
+          const itemType = Data.get(item, 'Раздел', productsData.headers);
+          if (brands.indexOf(itemBrand) < 0 && types.indexOf(itemType) > -1) {
+            brands.push(itemBrand);
           }
+        }
 
-          return brands;
-        });
+        return brands;
       });
+    };
+
+    return this._selectedTypes$.flatMap(getBrands);
   }
 }

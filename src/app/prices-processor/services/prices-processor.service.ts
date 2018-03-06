@@ -30,7 +30,7 @@ export class PricesProcessor {
       quoteChar: '"',
       encoding: 'Windows-1251',
       complete(e, fileData) {
-        that.data.setData({items: e.data.slice(1, -1), headers: e.data.slice(0, 1)});
+        that.data.setData({items: e.data.slice(1, -1), headers: e.data.slice(0, 1)[0]});
         callback(null, <string> fileData.name);
       },
       error(e, fileData) {

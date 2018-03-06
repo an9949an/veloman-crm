@@ -5,7 +5,7 @@ import { ProductsData } from './models/products-data';
 
 @Injectable()
 export class Data {
-  public static getValue(item: string[], prop: string, headers: string[]): string {
+  public static get(item: string[], prop: string, headers: string[]): string {
     return item[headers.indexOf(prop)];
   }
 
