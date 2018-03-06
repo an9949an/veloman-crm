@@ -49,7 +49,7 @@
   </form>
 
   <div class="additional-fields">
-    <additional-fields (buildFile)="buildFile($event)" class="additional-fields"
+    <additional-fields (buildFile)="uiData.buildFile($event)" class="additional-fields"
                        *ngIf="(uiData.selectedSellers$ | async)?.length"></additional-fields>
   </div>
 

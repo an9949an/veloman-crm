@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Data } from './data.service';
 import { ProductsData } from './models/products-data';
 import { ConnectableObservable } from 'rxjs/Rx';
+import { PricesProcessor } from './prices-processor.service';
 
 @Injectable()
 export class UiData {
@@ -15,7 +16,8 @@ export class UiData {
   private _selectedSellers$: BehaviorSubject<string[]>;
   private _selectedBrands$: BehaviorSubject<string[]>;
 
-  constructor(private data: Data) {
+  constructor(private data: Data,
+              private pricesProcessor: PricesProcessor) {
     this._selectedTypes$ = new BehaviorSubject<string[]>([]);
     this._selectedSellers$ = new BehaviorSubject<string[]>([]);
     this._selectedBrands$ = new BehaviorSubject<string[]>([]);
@@ -66,6 +68,23 @@ export class UiData {
     this._selectedSellers$.next([]);
     this._selectedBrands$.next([]);
     this.data.clear();
+  }
+
+  /**
+   * buildFile
+   * @param fields
+   */
+  public buildFile(fields): void {
+    const stream = Observable.zip(
+      this._selectedTypes$,
+      this._selectedBrands$,
+      this._selectedSellers$,
+      (types: string[], brands: string[], sellers: string[]) => ({types, brands, sellers})
+    ).take(1);
+
+    stream.subscribe((computed) => {
+      this.pricesProcessor.buildFile(computed, fields);
+    });
   }
 
   /**

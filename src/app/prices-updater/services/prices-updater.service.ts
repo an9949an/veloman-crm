@@ -102,7 +102,7 @@ export class PricesUpdater {
       const onlinerProductItem = pricesFromOnliner
         .find((item) => item[0] === siteItem['meta:name_from_onliner'].replace('&quot;', '"'));
 
-      if (onlinerProductItem && parseInt(onlinerProductItem[1]) > 0) {
+      if (onlinerProductItem && parseInt(onlinerProductItem[1], 10) > 0) {
         return {
           ...siteItem,
           regular_price: onlinerProductItem[1],
