@@ -1,11 +1,51 @@
 <form [formGroup]="form" autocomplete="off">
   <div class="form-group">
-    <label for="shop">Описание магазина</label>
-    <input id="shop" formControlName="shop" class="form-control">
+    <label for="description">Описание магазина</label>
+    <input id="description" formControlName="description" class="form-control">
   </div>
   <div class="form-group">
     <label for="manufacturer">Описание производителя</label>
     <input id="manufacturer" formControlName="manufacturer" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="importer">importer</label>
+    <input id="importer" formControlName="importer" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="services">services</label>
+    <input id="services" formControlName="services" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="guarantee">guarantee</label>
+    <input id="guarantee" formControlName="guarantee" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="deliveryMinskTime">deliveryMinskTime</label>
+    <input id="deliveryMinskTime" formControlName="deliveryMinskTime" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="deliveryMinskPrice">deliveryMinskPrice</label>
+    <input id="deliveryMinskPrice" formControlName="deliveryMinskPrice" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="deliveryBelarusTime">deliveryBelarusTime</label>
+    <input id="deliveryBelarusTime" formControlName="deliveryBelarusTime" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="deliveryBelarusPrice">deliveryBelarusPrice</label>
+    <input id="deliveryBelarusPrice" formControlName="deliveryBelarusPrice" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="lifeTime">lifeTime</label>
+    <input id="lifeTime" formControlName="lifeTime" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="forblablablaonly">forblablablaonly</label>
+    <input id="forblablablaonly" formControlName="forblablablaonly" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="credit">credit</label>
+    <input id="credit" formControlName="credit" class="form-control">
   </div>
   <button class="btn btn-primary" [disabled]="!form.valid" (click)="buildFile.emit(form.value)">Сформировать файл</button>
 </form>

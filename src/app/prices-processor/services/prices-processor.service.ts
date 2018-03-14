@@ -98,7 +98,7 @@ export class PricesProcessor {
    * @param headers
    * @returns {(product) => (any)[]}
    */
-  private getCsvItem(fields: { shop: string, manufacturer: string }, sellers, headers) {
+  private getCsvItem(fields: any, sellers, headers) {
     return (product) => {
       const productPrice = sellers.reduce(this.productPriceReduce(product), '0');
 
@@ -106,12 +106,20 @@ export class PricesProcessor {
         Data.get(product, 'Раздел', headers),
         Data.get(product, 'Производитель', headers),
         Data.get(product, 'Название', headers),
-        'todo',
-        'todo',
         productPrice,
         'BYN',
-        fields.shop,
-        fields.manufacturer
+        fields.description,
+        fields.manufacturer,
+        fields.importer,
+        fields.services,
+        fields.guarantee,
+        fields.deliveryMinskTime,
+        fields.deliveryMinskPrice,
+        fields.deliveryBelarusTime,
+        fields.deliveryBelarusPrice,
+        fields.lifeTime,
+        fields.forblablablaonly,
+        fields.credit,
       ];
     };
   }
@@ -139,7 +147,7 @@ export class PricesProcessor {
    */
   private isPriceExists(): (product: string[]) => boolean {
     return (product: string[]) => {
-      const productPrice = product[5].replace(',', '.');
+      const productPrice = product[3].replace(',', '.');
       return parseFloat(productPrice) > 0;
     };
   }

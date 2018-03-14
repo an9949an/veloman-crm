@@ -13,8 +13,18 @@ export class AdditionalFieldsComponent {
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      shop: ['', Validators.required],
-      manufacturer: ['', Validators.required]
+      description: ['', Validators.required],
+      manufacturer: ['', Validators.required],
+      importer: ['', Validators.required],
+      services: ['', Validators.required],
+      guarantee: ['', Validators.required],
+      deliveryMinskTime: ['', Validators.required],
+      deliveryMinskPrice: ['', Validators.required],
+      deliveryBelarusTime: ['', Validators.required],
+      deliveryBelarusPrice: ['', Validators.required],
+      lifeTime: ['', Validators.required],
+      forblablablaonly: ['', Validators.required],
+      credit: ['', Validators.required]
     });
   }
 
