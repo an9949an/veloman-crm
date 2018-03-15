@@ -24,7 +24,10 @@ export class AdditionalFieldsComponent {
       deliveryBelarusPrice: ['', Validators.required],
       lifeTime: ['', Validators.required],
       forblablablaonly: ['', Validators.required],
-      credit: ['', Validators.required]
+      credit: ['', Validators.required],
+
+      updateOldItems: [false],
+      deleteRedundant: [false]
     });
   }
 

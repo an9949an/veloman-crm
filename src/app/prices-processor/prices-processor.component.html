@@ -2,18 +2,36 @@
 
   <div class="row">
     <div class="col-lg-4">
+      <label class="btn btn-success" [ngClass]="{'disabled': uiData.shopDataLoaded$ | async}">
+        Загрузить цены МАГАЗИНА
+        <input [disabled]="uiData.shopDataLoaded$ | async" type="file" style="display: none;" (change)="loadShopFile($event.target)">
+      </label>
+    </div>
+    <div class="col-lg-8">
+      <div class="alert" role="alert" [ngClass]="{'alert-danger': !(uiData.shopDataLoaded$ | async),
+                                                               'alert-success': uiData.shopDataLoaded$ | async}">
+        <span *ngIf="!(uiData.shopDataLoaded$ | async); else loaded_successful">
+          А, это ты? Привет. Да пошел ты.
+        </span>
+        <ng-template #loaded_successful>Файл успешно загружон.</ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="uiData.shopDataLoaded$ | async">
+    <div class="col-lg-4">
       <label class="btn btn-success" [ngClass]="{'disabled': (uiData.productTypes$ | async)?.length}">
         Загрузить цены каталога
-        <input [disabled]="(uiData.productTypes$ | async)?.length" type="file" style="display: none;" (change)="loadFile($event.target)">
+        <input [disabled]="(uiData.productTypes$ | async)?.length" type="file" style="display: none;" (change)="loadCatalogFile($event.target)">
       </label>
     </div>
     <div class="col-lg-8">
       <div class="alert" role="alert" [ngClass]="{'alert-danger': !(uiData.productTypes$ | async)?.length,
                                                                'alert-success': (uiData.productTypes$ | async)?.length}">
         <span *ngIf="!(uiData.productTypes$ | async)?.length; else loaded_successful">
-          А, это ты? Привет. Да пошел ты.
+          Шел бы ты отсюда и не приходил больше.
         </span>
-        <ng-template #loaded_successful>Файл успешно загружон.</ng-template>
+        <ng-template #loaded_successful>Файл успешно загружэн.</ng-template>
       </div>
     </div>
   </div>
@@ -49,7 +67,7 @@
   </form>
 
   <div class="additional-fields">
-    <additional-fields (buildFile)="uiData.buildFile($event)" class="additional-fields"
+    <additional-fields (buildFile)="uiData.buildCsv($event)" class="additional-fields"
                        *ngIf="(uiData.selectedSellers$ | async)?.length"></additional-fields>
   </div>
 

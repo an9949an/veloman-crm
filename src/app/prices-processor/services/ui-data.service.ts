@@ -12,6 +12,8 @@ export class UiData {
   public sellers$: ConnectableObservable<string[]>;
   public brands$: ConnectableObservable<string[]>;
 
+  public shopDataLoaded$: Observable<boolean>;
+
   private _selectedTypes$: BehaviorSubject<string[]>;
   private _selectedSellers$: BehaviorSubject<string[]>;
   private _selectedBrands$: BehaviorSubject<string[]>;
@@ -21,6 +23,8 @@ export class UiData {
     this._selectedTypes$ = new BehaviorSubject<string[]>([]);
     this._selectedSellers$ = new BehaviorSubject<string[]>([]);
     this._selectedBrands$ = new BehaviorSubject<string[]>([]);
+
+    this.shopDataLoaded$ = this.data.shopData$.map((shopData: any[]) => shopData.length > 0);
 
     this.productTypes$ = this.getProductTypesObservable()
       .multicast(new BehaviorSubject<string[]>([]));
@@ -71,10 +75,10 @@ export class UiData {
   }
 
   /**
-   * buildFile
+   * buildCsv
    * @param fields
    */
-  public buildFile(fields): void {
+  public buildCsv(fields): void {
     const stream = Observable.zip(
       this._selectedTypes$,
       this._selectedBrands$,
@@ -83,7 +87,7 @@ export class UiData {
     ).take(1);
 
     stream.subscribe((computed) => {
-      this.pricesProcessor.buildFile(computed, fields);
+      this.pricesProcessor.buildCsv(computed, fields);
     });
   }
 
@@ -92,7 +96,7 @@ export class UiData {
    * @returns {Observable<string[]>}
    */
   private getProductTypesObservable(): Observable<string[]> {
-    return this.data.data$.map((productsData: ProductsData) => {
+    return this.data.catalogData$.map((productsData: ProductsData) => {
       let productTypes = [];
 
       for (const item of productsData.items) {
@@ -102,7 +106,10 @@ export class UiData {
         }
       }
 
-      return productTypes;
+      return productTypes.sort((a, b) => {
+        return (a < b) ? -1 :
+          (a > b) ? 1 : 0;
+      });
     });
   }
 
@@ -112,7 +119,7 @@ export class UiData {
    */
   private getBandsObservable(): Observable<string[]> {
     const getBrands = (types) => {
-      return this.data.data$.map((productsData: ProductsData) => {
+      return this.data.catalogData$.map((productsData: ProductsData) => {
         let brands = [];
 
         for (const item of productsData.items) {
@@ -138,7 +145,7 @@ export class UiData {
     const stream = Observable.zip(
       this._selectedTypes$,
       this._selectedBrands$,
-      this.data.data$,
+      this.data.catalogData$,
       (types: string[], brands: string[], data: ProductsData) => ({types, brands, data})
     );
 

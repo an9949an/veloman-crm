@@ -9,21 +9,32 @@ export class Data {
     return item[headers.indexOf(prop)];
   }
 
-  private _data$: BehaviorSubject<ProductsData>;
+  private _catalogData$: BehaviorSubject<ProductsData>;
+  private _shopData$: BehaviorSubject<string[][]>;
 
-  get data$(): Observable<ProductsData> {
-    return this._data$.asObservable();
+  get catalogData$(): Observable<ProductsData> {
+    return this._catalogData$.asObservable();
+  }
+
+  get shopData$(): Observable<string[][]> {
+    return this._shopData$.asObservable();
   }
 
   constructor() {
-    this._data$ = new BehaviorSubject<ProductsData>({items: [], headers: []});
+    this._catalogData$ = new BehaviorSubject<ProductsData>({items: [], headers: []});
+    this._shopData$ = new BehaviorSubject<string[][]>([]);
   }
 
-  public setData(data: ProductsData): void {
-    this._data$.next(data);
+  public setCatalogData(data: ProductsData): void {
+    this._catalogData$.next(data);
+  }
+
+  public setShopData(data: string[][]): void {
+    this._shopData$.next(data);
   }
 
   public clear(): void {
-    this._data$.next({items: [], headers: []});
+    this._catalogData$.next({items: [], headers: []});
+    this._shopData$.next([]);
   }
 }

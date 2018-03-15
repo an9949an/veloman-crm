@@ -15,37 +15,57 @@
     <label for="services">services</label>
     <input id="services" formControlName="services" class="form-control">
   </div>
-  <div class="form-group">
-    <label for="guarantee">guarantee</label>
-    <input id="guarantee" formControlName="guarantee" class="form-control">
+
+
+  <div class="row">
+    <div class="col">
+      <label for="guarantee">guarantee</label>
+      <input id="guarantee" formControlName="guarantee" class="form-control">
+    </div>
+    <div class="col">
+      <label for="deliveryMinskTime">deliveryMinskTime</label>
+      <input id="deliveryMinskTime" formControlName="deliveryMinskTime" class="form-control">
+    </div>
+    <div class="col">
+      <label for="deliveryMinskPrice">deliveryMinskPrice</label>
+      <input id="deliveryMinskPrice" formControlName="deliveryMinskPrice" class="form-control">
+    </div>
+    <div class="col">
+      <label for="deliveryBelarusTime">deliveryBelarusTime</label>
+      <input id="deliveryBelarusTime" formControlName="deliveryBelarusTime" class="form-control">
+    </div>
   </div>
-  <div class="form-group">
-    <label for="deliveryMinskTime">deliveryMinskTime</label>
-    <input id="deliveryMinskTime" formControlName="deliveryMinskTime" class="form-control">
+
+  <div class="row">
+    <div class="col">
+      <label for="deliveryBelarusPrice">deliveryBelarusPrice</label>
+      <input id="deliveryBelarusPrice" formControlName="deliveryBelarusPrice" class="form-control">
+    </div>
+    <div class="col">
+      <label for="lifeTime">lifeTime</label>
+      <input id="lifeTime" formControlName="lifeTime" class="form-control">
+    </div>
+    <div class="col">
+      <label for="forblablablaonly">forblablablaonly</label>
+      <input id="forblablablaonly" formControlName="forblablablaonly" class="form-control">
+    </div>
+    <div class="col">
+      <label for="credit">credit</label>
+      <input id="credit" formControlName="credit" class="form-control">
+    </div>
   </div>
+
+
   <div class="form-group">
-    <label for="deliveryMinskPrice">deliveryMinskPrice</label>
-    <input id="deliveryMinskPrice" formControlName="deliveryMinskPrice" class="form-control">
+    <div class="form-check form-check-inline">
+      <input formControlName="updateOldItems" class="form-check-input" type="checkbox" id="updateOldItems">
+      <label class="form-check-label" for="updateOldItems">Поменять цену существующих товаров</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input formControlName="deleteRedundant" class="form-check-input" type="checkbox" id="deleteGoods">
+      <label class="form-check-label" for="deleteGoods">Удалить лишние товары</label>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="deliveryBelarusTime">deliveryBelarusTime</label>
-    <input id="deliveryBelarusTime" formControlName="deliveryBelarusTime" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="deliveryBelarusPrice">deliveryBelarusPrice</label>
-    <input id="deliveryBelarusPrice" formControlName="deliveryBelarusPrice" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="lifeTime">lifeTime</label>
-    <input id="lifeTime" formControlName="lifeTime" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="forblablablaonly">forblablablaonly</label>
-    <input id="forblablablaonly" formControlName="forblablablaonly" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="credit">credit</label>
-    <input id="credit" formControlName="credit" class="form-control">
-  </div>
+
   <button class="btn btn-primary" [disabled]="!form.valid" (click)="buildFile.emit(form.value)">Сформировать файл</button>
 </form>

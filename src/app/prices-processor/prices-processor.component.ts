@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PricesProcessor } from './services';
 import { UiData } from './services/ui-data.service';
 import { Data } from './services/data.service';
+import { FilesProcessor } from './services/files-processor.service';
 
 @Component({
   selector: 'bikes-loader',
@@ -16,12 +17,17 @@ import { Data } from './services/data.service';
 })
 export class PricesProcessorComponent {
 
-  constructor(public pricesProcessor: PricesProcessor,
+  constructor(private filesProcessor: FilesProcessor,
               public uiData: UiData) {
   }
 
-  public loadFile(fileInput: any): void {
-    this.pricesProcessor.loadFile(fileInput.files[0]).subscribe();
+  public loadCatalogFile(fileInput: any): void {
+    this.filesProcessor.loadCatalogFile(fileInput.files[0]).subscribe();
+    fileInput.value = '';
+  }
+
+  public loadShopFile(fileInput: any): void {
+    this.filesProcessor.loadShopFile(fileInput.files[0]).subscribe();
     fileInput.value = '';
   }
 
@@ -38,9 +44,5 @@ export class PricesProcessorComponent {
   public selectSellers(options: HTMLCollection) {
     const sellers = [].map.call(options, (option) => option.value);
     this.uiData.setSellers(sellers);
-  }
-
-  public buildFile(fields): void {
-    console.log(fields);
   }
 }
