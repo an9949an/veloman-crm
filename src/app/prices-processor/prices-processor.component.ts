@@ -12,7 +12,8 @@ import { FilesProcessor } from './services/files-processor.service';
   providers: [
     PricesProcessor,
     Data,
-    UiData
+    UiData,
+    FilesProcessor
   ]
 })
 export class PricesProcessorComponent {

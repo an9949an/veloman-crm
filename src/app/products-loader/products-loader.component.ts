@@ -17,8 +17,8 @@ import { ProductsProcessing } from './services/products-processing.service';
 })
 export class ProductsLoaderComponent implements OnInit {
   @ViewChild('cancelBtn') public cancelBtn: ElementRef;
-  private loadExistedState$: BehaviorSubject<{ text: string, warningColor: boolean }>;
-  private log$: Observable<string>;
+  public loadExistedState$: BehaviorSubject<{ text: string, warningColor: boolean }>;
+  public log$: Observable<string>;
 
   constructor(public existedProducts: ExistedProducts,
               public productsLoader: ProductsLoader) {

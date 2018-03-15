@@ -5,8 +5,7 @@
 
       <div class="form-group">
         <label for="onlinerLink">Ссылка с онлайнера</label>
-        <input class="form-control" id="onlinerLink" placeholder="Ссылка" [(ngModel)]="link"
-               #onlinerLink="ngModel" required>
+        <input class="form-control" id="onlinerLink" placeholder="Ссылка" #onlinerLink required>
       </div>
       <button (click)="loadProducts(onlinerLink.model)" [disabled]="onlinerLink.invalid || (productsLoader.loadingStatus$ | async).started"
               id="parseButton" class="btn btn-primary">Стырить</button>
