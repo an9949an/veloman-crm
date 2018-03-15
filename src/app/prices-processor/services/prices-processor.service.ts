@@ -5,6 +5,17 @@ import { FilesProcessor } from './files-processor.service';
 
 @Injectable()
 export class PricesProcessor {
+
+  /**
+   * Indexes in csv item array
+   */
+  private static csvIndexes = {
+    type: 0,
+    brand: 1,
+    name: 2,
+    price: 4
+  };
+
   /**
    * isProductsSimilar
    * @param {string[]} product
@@ -73,14 +84,14 @@ export class PricesProcessor {
    * @param fields
    */
   public buildCsv({
-                     types,
-                     brands,
-                     sellers
-                   }: {
-                     types: string[],
-                     brands: string[],
-                     sellers: string[]
-                   },
+                    types,
+                    brands,
+                    sellers
+                  }: {
+                    types: string[],
+                    brands: string[],
+                    sellers: string[]
+                  },
                   fields: any): void {
 
     const process = ({items, headers}: ProductsData): void => {
@@ -146,7 +157,8 @@ export class PricesProcessor {
                           brands: string[],
                           product: string[]): boolean {
     const haveSelectedTypeAndBrand =
-      types.indexOf(product[0]) > -1 && brands.indexOf(product[1]) > -1;
+      types.indexOf(product[PricesProcessor.csvIndexes.type]) > -1 &&
+      brands.indexOf(product[PricesProcessor.csvIndexes.brand]) > -1;
 
     if (haveSelectedTypeAndBrand) {
       return newCsv.some((newProduct) => PricesProcessor.isProductsSimilar(product, newProduct));
@@ -164,7 +176,8 @@ export class PricesProcessor {
     const newRelatedProduct = newCsv.find(PricesProcessor.isProductsSimilar.bind(this, product));
 
     if (newRelatedProduct) {
-      product[4] = newRelatedProduct[4];
+      product[PricesProcessor.csvIndexes.price] =
+        newRelatedProduct[PricesProcessor.csvIndexes.price];
       return product;
     }
 
