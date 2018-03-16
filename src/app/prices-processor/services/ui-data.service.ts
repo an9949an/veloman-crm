@@ -8,6 +8,17 @@ import { PricesProcessor } from './prices-processor.service';
 
 @Injectable()
 export class UiData {
+  /**
+   * sortDesc
+   * @param a
+   * @param b
+   * @returns {number}
+   */
+  private static sortDesc(a, b): number {
+    return (a < b) ? -1 :
+      (a > b) ? 1 : 0;
+  }
+
   public productTypes$: ConnectableObservable<string[]>;
   public sellers$: ConnectableObservable<string[]>;
   public brands$: ConnectableObservable<string[]>;
@@ -106,10 +117,7 @@ export class UiData {
         }
       }
 
-      return productTypes.sort((a, b) => {
-        return (a < b) ? -1 :
-          (a > b) ? 1 : 0;
-      });
+      return productTypes.sort(UiData.sortDesc);
     });
   }
 
@@ -130,7 +138,7 @@ export class UiData {
           }
         }
 
-        return brands;
+        return brands.sort(UiData.sortDesc);
       });
     };
 
@@ -155,7 +163,10 @@ export class UiData {
       for (const item of computed.data.items) {
         const itemBrand = Data.get(item, 'Производитель', computed.data.headers);
         const itemType = Data.get(item, 'Раздел', computed.data.headers);
-        if (computed.brands.indexOf(itemBrand) > -1 && computed.types.indexOf(itemType) > -1) {
+        const itemTypeInSelection = computed.types.indexOf(itemType) > -1;
+        const itemBrandInSelection = computed.brands.indexOf(itemBrand) > -1;
+
+        if (itemTypeInSelection && itemBrandInSelection) {
           for (let shopNumber = 1; ; shopNumber++) {
             const shopHeader = `Магазин ${shopNumber}`;
             if (computed.data.headers.indexOf(shopHeader) < 0) {
@@ -176,7 +187,7 @@ export class UiData {
         }
       }
 
-      return sellers;
+      return sellers.sort(UiData.sortDesc);
     };
 
     return stream.map(getSellers);
