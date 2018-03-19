@@ -3,6 +3,7 @@ import * as Papa from 'papaparse/papaparse';
 import { Observable } from 'rxjs/Observable';
 import { bindNodeCallback } from 'rxjs/observable/bindNodeCallback';
 import { Data } from './data.service';
+import * as FileSaver from 'file-saver';
 
 @Injectable()
 export class FilesProcessor {
@@ -20,8 +21,8 @@ export class FilesProcessor {
       quoteChar: '"'
     });
 
-    const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvStr);
-    window.open(encodedUri);
+    const blob = new Blob([csvStr], {type: 'data:text/csv;charset=utf-8'});
+    FileSaver.saveAs(blob, 'prices-for-onliner.csv');
   }
 
   /**
