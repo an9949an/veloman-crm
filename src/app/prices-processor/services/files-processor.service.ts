@@ -26,9 +26,9 @@ export class FilesProcessor {
 
   /**
    * parseFile
-   * @param encoding
+   * @param {string} encoding
    * @param file
-   * @param {(file: any) => string} callback
+   * @param {(error: string, result?: any) => void} callback
    */
   private static parseFile(encoding: string,
                            file: any,
