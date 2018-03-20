@@ -8,50 +8,59 @@
     <input id="manufacturer" formControlName="manufacturer" class="form-control">
   </div>
   <div class="form-group">
-    <label for="importer">importer</label>
+    <label for="importer">Импортер</label>
     <input id="importer" formControlName="importer" class="form-control">
   </div>
   <div class="form-group">
-    <label for="services">services</label>
+    <label for="services">Сервисы</label>
     <input id="services" formControlName="services" class="form-control">
   </div>
 
-
   <div class="row">
     <div class="col">
-      <label for="guarantee">guarantee</label>
-      <input id="guarantee" formControlName="guarantee" class="form-control">
+      <label for="guarantee">Гарантия</label>
+      <input id="guarantee" type="number" formControlName="guarantee" class="form-control">
     </div>
     <div class="col">
-      <label for="deliveryMinskTime">deliveryMinskTime</label>
-      <input id="deliveryMinskTime" formControlName="deliveryMinskTime" class="form-control">
+      <label for="deliveryMinskTime">Время доставки минск</label>
+      <input id="deliveryMinskTime" type="number" formControlName="deliveryMinskTime" class="form-control">
     </div>
     <div class="col">
-      <label for="deliveryMinskPrice">deliveryMinskPrice</label>
-      <input id="deliveryMinskPrice" formControlName="deliveryMinskPrice" class="form-control">
+      <label for="deliveryMinskPrice">Цена доставки минск</label>
+      <input id="deliveryMinskPrice" type="number" formControlName="deliveryMinskPrice" class="form-control">
     </div>
     <div class="col">
-      <label for="deliveryBelarusTime">deliveryBelarusTime</label>
-      <input id="deliveryBelarusTime" formControlName="deliveryBelarusTime" class="form-control">
+      <label for="deliveryBelarusTime">Время доставки беларусь</label>
+      <input id="deliveryBelarusTime" type="number" formControlName="deliveryBelarusTime" class="form-control">
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <label for="deliveryBelarusPrice">deliveryBelarusPrice</label>
-      <input id="deliveryBelarusPrice" formControlName="deliveryBelarusPrice" class="form-control">
+      <label for="deliveryBelarusPrice">Цена доставки беларусь</label>
+      <input id="deliveryBelarusPrice" type="number" formControlName="deliveryBelarusPrice" class="form-control">
     </div>
     <div class="col">
-      <label for="lifeTime">lifeTime</label>
-      <input id="lifeTime" formControlName="lifeTime" class="form-control">
+      <label for="lifeTime">Срок службы</label>
+      <input id="lifeTime" type="number" formControlName="lifeTime" class="form-control">
     </div>
     <div class="col">
-      <label for="forblablablaonly">forblablablaonly</label>
-      <input id="forblablablaonly" formControlName="forblablablaonly" class="form-control">
+      <label for="forblablablaonly">Только для юридических лиц</label>
+      <!--<input id="forblablablaonly" formControlName="forblablablaonly" class="form-control">-->
+      <select class="form-control" id="forblablablaonly" formControlName="forblablablaonly">
+        <option value="">Не выбрано</option>
+        <option value="да">Да</option>
+        <option value="нет">Нет</option>
+      </select>
     </div>
     <div class="col">
-      <label for="credit">credit</label>
-      <input id="credit" formControlName="credit" class="form-control">
+      <label for="credit">Кредит</label>
+      <!--<input id="credit" formControlName="credit" class="form-control">-->
+      <select class="form-control" id="credit" formControlName="credit">
+        <option value="">Не выбрано</option>
+        <option value="да">Да</option>
+        <option value="нет">Нет</option>
+      </select>
     </div>
   </div>
 
