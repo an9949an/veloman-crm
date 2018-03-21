@@ -85,7 +85,7 @@ export class FilesProcessor {
    * @returns {Observable<string>}
    */
   public loadShopFile(file: any): Observable<string> {
-    return this.loadFileUTF8(file)
+    return this.loadFileWindows1251(file)
       .map((fileData) => fileData.data.slice(0, -1))
       .do((products) => this.data.setShopData(products))
       .map((fileData) => <string> fileData.fileName);

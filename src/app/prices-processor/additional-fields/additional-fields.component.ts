@@ -48,9 +48,9 @@ export class AdditionalFieldsComponent implements OnInit {
     this.form.valueChanges
       .do((value) => Cookies.set(
         AdditionalFieldsComponent.DRAFT_COOKIE,
-        JSON.stringify(value)))
+        JSON.stringify(value)
+      ))
       .subscribe();
-
   }
 
 }

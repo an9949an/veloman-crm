@@ -13,7 +13,7 @@ export class PricesProcessor {
     type: 0,
     brand: 1,
     name: 2,
-    price: 4
+    price: 5
   };
 
   /**
@@ -49,7 +49,8 @@ export class PricesProcessor {
    * @returns {boolean}
    */
   private static isPriceExists(product: string[]): boolean {
-    const productPrice = product[4].replace(',', '.');
+    const productPrice = product[PricesProcessor.csvIndexes.price]
+      .replace(',', '.');
     return parseFloat(productPrice) > 0;
   }
 
@@ -199,6 +200,7 @@ export class PricesProcessor {
       Data.get(product, 'Раздел', headers),
       Data.get(product, 'Производитель', headers),
       Data.get(product, 'Название', headers),
+      '',
       '',
       productPrice,
       'BYN',
