@@ -19,6 +19,7 @@ export class ProductsLoaderComponent implements OnInit {
   @ViewChild('cancelBtn') public cancelBtn: ElementRef;
   public loadExistedState$: BehaviorSubject<{ text: string, warningColor: boolean }>;
   public log$: Observable<string>;
+  public link: string;
 
   constructor(public existedProducts: ExistedProducts,
               public productsLoader: ProductsLoader) {
