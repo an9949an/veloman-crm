@@ -112,7 +112,7 @@ export class ProductsLoader {
     const nextPage = ProductsLoader.randomTimeout().mergeMap(() => getPage(pageNumber));
 
     const concatAllProductsRecursively = (page: any) => {
-      const next = page.current < page.last ?
+      const next = page.page.current < page.page.last ?
         this.load(link, nextPage, pageNumber + 1) : Observable.empty();
 
       return Observable.concat(
