@@ -1,3 +1,5 @@
+# node v12.18.2 works fine on ubuntu
+
 # install the repo with npm
 npm install
 

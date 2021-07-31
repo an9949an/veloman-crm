@@ -132,6 +132,7 @@ export class ProductsLoader {
   private loadProductsFromPage(page: {
     products: any[],
     total: number,
+    total_ungrouped: number,
     page: {
       current: number,
       limit: number
@@ -148,7 +149,9 @@ export class ProductsLoader {
 
     const productIsNew = (product) => this.existedProducts.names.indexOf(product.name) < 0;
 
-    const productLoaders = page.products
+    const products = [].concat(...page.products.map((product) => [product, ...product.children]));
+
+    const productLoaders = products
       .filter(productIsNew)
       .map(load);
 
@@ -164,6 +167,7 @@ export class ProductsLoader {
    */
   private setProgress(page: {
                         total: number,
+                        total_ungrouped: number,
                         page: {
                           current: number
                         }
@@ -173,7 +177,7 @@ export class ProductsLoader {
     return () => {
       const productIndex = productIndexOnCurrentPage + 1
         + (page.page.current - 1) * pageSize;
-      const totalProgress = 100 * productIndex / page.total;
+      const totalProgress = 100 * productIndex / page.total_ungrouped;
 
       this.loadingStatus$.next({started: true, progress: totalProgress});
     };

@@ -86,6 +86,7 @@ export class ProductsProcessing {
       this.addToCsv('0', 'regular_price', csv);
     }
     this.addToCsv(this.getPrimaryCategory(product), 'meta:custom_primary_category', csv);
+    this.addToCsv(product.parent_key || product.key, 'parent_key', csv);
 
     this.addAttributes(product, csv);
   }
