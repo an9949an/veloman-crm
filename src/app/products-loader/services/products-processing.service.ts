@@ -17,18 +17,22 @@ export class ProductsProcessing {
     products.forEach((product) => this.processProduct(product, this.csv));
   }
 
-  public downloadCsv(): void{
+  public downloadCsv(): void {
     const that = this;
 
-    if(that.csv.length) {
-      let csvContent = 'data:text/csv;charset=utf-8,';
-      that.csv.forEach(function (infoArray, index) {
+    if (that.csv.length) {
+      const csvData = that.csv.map((line: any[]) => line.map((cell) => {
+        return cell && cell.replace ? cell.replaceAll('#', ' ') : cell;
+      }));
 
-        let dataString = infoArray.join('~');
-        csvContent += index < that.csv.length ? dataString + '\n' : dataString;
-
+      const csv = Papa.unparse(csvData, {
+        delimiter: '~',
+        header: true,
+        newline: '\n',
+        quotes: true,
+        quoteChar: '"'
       });
-      const encodedUri = encodeURI(csvContent);
+      const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csv);
       window.open(encodedUri);
       console.log('File downloaded');
     }
